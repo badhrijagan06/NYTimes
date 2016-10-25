@@ -58,11 +58,13 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     HashSet<String> titles;
     String lastQuery;
     int lastPageRequest;
-    static final String STATE_QUERY = "query";
     String beginDate;
     String sortOrder;
     String newsDesk;
     Bitmap bitmap;
+
+    static final String STATE_QUERY = "query";
+    static final String TAG = "NYTimes";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +104,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         });
 
 
-        Log.d("NYTi", "activity created");
+        Log.d(TAG, "activity created");
         if (savedInstanceState != null) {
             lastQuery = savedInstanceState.getString(STATE_QUERY);
             if (lastQuery != null) {
@@ -254,7 +256,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
 
-                Log.d("NYTimes", response.toString());
+                Log.d(TAG, response.toString());
                 JSONArray articleJsonResults = null;
 
                 try {
@@ -262,7 +264,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                     articles.addAll(Article.fromJsonArray(articleJsonResults, titles));
                     articlesAdapter.notifyItemRangeInserted(articlesAdapter.getItemCount(),
                             articleJsonResults.length());
-                    Log.d("NYTimes", articles.toString());
+                    Log.d(TAG, articles.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -330,8 +332,8 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         edit.putBoolean("arts", arts);
         edit.commit();
 
-        Log.d("NYTimes", date + sortOrder + sports + fashion + arts);
-        Log.d("NYTimes", beginDate + this.sortOrder + newsDesk);
+        Log.d(TAG, date + sortOrder + sports + fashion + arts);
+        Log.d(TAG, beginDate + this.sortOrder + newsDesk);
 
         if (lastQuery != null) {
             loadArticles(lastQuery, 0);

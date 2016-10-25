@@ -28,20 +28,24 @@ public class Article {
         return webUrl;
     }
 
-
-
+    private static final String WEBURL =  "web_url";
+    private static final String ID =  "_id";
+    private static final String HEADLINE =  "headline";
+    private static final String MULTIMEDIA =  "multimedia";
+    private static final String MAIN =  "main";
+    private static final String BASE_URL =  "http://www.nytimes.com/";
 
     public Article(JSONObject jsonObject) {
         try {
-            this.webUrl = jsonObject.getString("web_url");
-            this.id = jsonObject.getString("_id");
-            this.headline = jsonObject.getJSONObject("headline").getString("main");
+            this.webUrl = jsonObject.getString(WEBURL);
+            this.id = jsonObject.getString(ID);
+            this.headline = jsonObject.getJSONObject(HEADLINE).getString(MAIN);
 
-            JSONArray multimedia = jsonObject.getJSONArray("multimedia");
+            JSONArray multimedia = jsonObject.getJSONArray(MULTIMEDIA);
 
             if (multimedia.length() > 0) {
                 JSONObject multimediaJson = multimedia.getJSONObject(0);
-                this.thumbNail = "http://www.nytimes.com/" + multimediaJson.getString("url");
+                this.thumbNail = BASE_URL + multimediaJson.getString("url");
             } else {
                 this.thumbNail = "";
             }
